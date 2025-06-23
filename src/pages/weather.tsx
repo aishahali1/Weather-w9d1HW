@@ -1,9 +1,9 @@
 import { useState,useEffect } from 'react';
-import axios from 'axios';
 import { signOut } from '../services/auth.service';
 import { useNavigate } from 'react-router';
+import { getHistory } from '../services/history.service';
+import { getWeather } from '../services/weather.service';
 
-const API_BASE_URL = 'https://weatherapi-skmb.onrender.com/'; 
 interface WeatherData {
   main: {
     temp: number;
@@ -34,12 +34,12 @@ const WeatherPage = () => {
     setWeather(null);
 
     try {
-      const response = await axios.get(`${API_BASE_URL}api/weather?lat=${lat}&lon=${lon}`, {
-        headers: {
-          Authorization: `Bearer ${token}`
+        if (!token) {
+       console.error('Token is missing');
+       return;
         }
-      });
-      setWeather(response.data);
+      const fetchedWeather = await getWeather(lat, lon, token)
+      setWeather(fetchedWeather);
     } catch (err: any) {
       setError(err.response?.data?.message || 'Failed to fetch weather.');
     } finally {
@@ -50,10 +50,12 @@ const WeatherPage = () => {
    const fetchHistory = async () => {
     const token = localStorage.getItem('token');
     try {
-      const res = await axios.get(`${API_BASE_URL}api/history`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      setHistory(res.data.data);
+        if (!token) {
+       console.error('Token is missing');
+       return;
+        }
+    const fetchedHistory = await getHistory(token)
+      setHistory(fetchedHistory);
     } catch (err: any) {
     console.error('Failed to fetch history:', err.response?.data?.message || err.message);
     }
