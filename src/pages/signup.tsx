@@ -4,6 +4,7 @@ import { saveToken } from '../utils/auth';
 import axios from 'axios';
 
 export default function SignUp() {
+ const API_BASE_URL = 'https://weatherapi-skmb.onrender.com'; 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
@@ -11,7 +12,8 @@ export default function SignUp() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const res = await axios.post('/api/auth/signup', { email, password });
+
+      const res = await axios.post(`${API_BASE_URL}/api/auth/signup`, { email, password });
       saveToken(res.data.token);
       navigate('/weather');
     } catch (err: any) {

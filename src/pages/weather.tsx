@@ -2,7 +2,7 @@ import { useState,useEffect } from 'react';
 import axios from 'axios';
 import Navbar from '../components/navbar';
 
-const API_BASE_URL = 'https://weatherapi-skmb.onrender.com/'; // Replace with your backend
+const API_BASE_URL = 'https://weatherapi-skmb.onrender.com/'; 
 const token = localStorage.getItem('token');
 
 interface WeatherData {
@@ -23,7 +23,7 @@ interface HistoryEntry {
 const WeatherPage = () => {
   const [lat, setLat] = useState('');
   const [lon, setLon] = useState('');
-  const [weather, setWeather] = useState<any>(null);
+  const [weather, setWeather] = useState<WeatherData | null>(null);
   const [history, setHistory] = useState<HistoryEntry[]>([]);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -85,8 +85,10 @@ const WeatherPage = () => {
           />
           <button
             onClick={fetchWeather}
+             disabled={loading}
             className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
           >
+            {loading ? 'Loading...' : 'Get Weather'}
             Get Weather
           </button>
           {error && <p className="text-red-500 text-sm">{error}</p>}
