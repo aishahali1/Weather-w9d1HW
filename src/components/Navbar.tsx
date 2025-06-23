@@ -1,11 +1,10 @@
-// components/Navbar.tsx
 import { useNavigate } from 'react-router';
 
 const Navbar = () => {
   const navigate = useNavigate();
 
   const handleSignOut = () => {
-    localStorage.removeItem('token'); // or any token key
+    localStorage.removeItem('token');
     navigate('/signin');
   };
 
