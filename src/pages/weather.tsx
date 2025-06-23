@@ -1,10 +1,9 @@
 import { useState,useEffect } from 'react';
-import { useNavigate } from 'react-router'
 import axios from 'axios';
+import { signOut } from '../services/auth.service';
+import { useNavigate } from 'react-router';
 
 const API_BASE_URL = 'https://weatherapi-skmb.onrender.com/'; 
-const token = localStorage.getItem('token');
-
 interface WeatherData {
   main: {
     temp: number;
@@ -29,6 +28,7 @@ const WeatherPage = () => {
   const [loading, setLoading] = useState(false);
 
   const fetchWeather = async () => {
+    const token = localStorage.getItem('token');
     setLoading(true);
     setError('');
     setWeather(null);
@@ -48,6 +48,7 @@ const WeatherPage = () => {
   };
 
    const fetchHistory = async () => {
+    const token = localStorage.getItem('token');
     try {
       const res = await axios.get(`${API_BASE_URL}/api/history`, {
         headers: { Authorization: `Bearer ${token}` },
@@ -63,9 +64,8 @@ const WeatherPage = () => {
   }, [weather]);
 
   const navigate = useNavigate();
-
     const handleSignOut = () => {
-    localStorage.removeItem('token');
+    signOut()
     navigate('/signin');
   };
 
