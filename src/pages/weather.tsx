@@ -50,12 +50,12 @@ const WeatherPage = () => {
    const fetchHistory = async () => {
     const token = localStorage.getItem('token');
     try {
-      const res = await axios.get(`${API_BASE_URL}/api/history`, {
+      const res = await axios.get(`${API_BASE_URL}api/history`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setHistory(res.data.data);
-    } catch (err) {
-      console.error('Failed to fetch history');
+    } catch (err: any) {
+    console.error('Failed to fetch history:', err.response?.data?.message || err.message);
     }
   };
 
