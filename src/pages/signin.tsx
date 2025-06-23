@@ -12,7 +12,7 @@ export default function SignIn() {
     e.preventDefault();
     try {
       const data = await signIn(email, password );
-      saveToken(data.token);
+      saveToken(data.data.token);
       navigate('/weather');
     } catch (err: any) {
       alert(err.response?.data?.message || 'Sign in failed');
