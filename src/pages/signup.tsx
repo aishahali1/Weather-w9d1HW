@@ -12,7 +12,7 @@ export default function SignUp() {
     e.preventDefault();
     try {
       const data = await signUp(email, password);
-      saveToken(data.token);
+      saveToken(data.data.token);
       navigate('/weather');
     } catch (err: any) {
       alert(err.response?.data?.message || 'Sign up failed');
