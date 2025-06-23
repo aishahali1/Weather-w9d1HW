@@ -1,6 +1,6 @@
 import { useState,useEffect } from 'react';
+import { useNavigate } from 'react-router'
 import axios from 'axios';
-import Navbar from '../components/navbar';
 
 const API_BASE_URL = 'https://weatherapi-skmb.onrender.com/'; 
 const token = localStorage.getItem('token');
@@ -62,9 +62,24 @@ const WeatherPage = () => {
     if (weather) fetchHistory();
   }, [weather]);
 
+  const navigate = useNavigate();
+
+    const handleSignOut = () => {
+    localStorage.removeItem('token');
+    navigate('/signin');
+  };
+
 
   return (<>
-    <Navbar></Navbar>
+        <nav className="flex justify-between items-center p-4 bg-blue-600 text-white">
+      <h1 className="text-xl font-bold">Weather App</h1>
+      <button
+        onClick={handleSignOut}
+        className="bg-red-500 px-3 py-1 rounded hover:bg-red-600"
+      >
+        Sign Out
+      </button>
+    </nav>
     <div className="min-h-screen bg-blue-50 flex flex-col items-center justify-start pt-10 px-4">
       <div className="bg-white shadow-lg rounded-lg p-6 w-full max-w-md">
         <h1 className="text-2xl font-bold mb-4 text-center text-blue-700">Weather Checker</h1>

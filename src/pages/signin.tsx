@@ -11,7 +11,8 @@ export default function SignIn() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const res = await axios.post('/api/auth/signin', { email, password });
+    const API_BASE_URL = 'https://weatherapi-skmb.onrender.com/'; 
+      const res = await axios.post(`${API_BASE_URL}/api/auth/signin`, { email, password });
       saveToken(res.data.token);
       navigate('/weather');
     } catch (err: any) {
